@@ -1,4 +1,4 @@
-CREATE DATABASE BlogSystem;
+CREATE DATABASE blogsystem;
 
 CREATE TABLE users(
 user_id uuid PRIMARY KEY DEFAULT

@@ -1,11 +1,13 @@
-import Pool from 'pg';
+import pkg from 'pg';
+
+const { Pool } = pkg;
 
 const pool = new Pool({
-  user: 'postgress',
-  password: 'ea1991',
+  user: 'me',
+  password: 'password',
   host: 'localhost',
   port: 5432,
-  database: 'BlogSystem'
+  database: 'blogsystem'
 });
 
-module.exports = pool;
+export default pool;
