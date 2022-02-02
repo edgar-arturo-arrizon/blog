@@ -3,11 +3,11 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  user: 'edgararrizon',
-  password: 'ea1991',
+  user: 'me',
+  password: 'password',
   host: 'localhost',
   port: 5432,
-  database: 'BlogSystem'
+  database: 'blogsystem'
 });
 
 export default pool;
