@@ -12,13 +12,16 @@ router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [email]);
 
-    //step 2 check if user exists, if they do throw error
+    //step 2 if user exist throw error
     if (user.rows.length !== 0) {
       res.status(401).send('User already exists');
-    } else {
-      
     }
-  //step 3 else  bcrypt user password
+
+    //step 3 else bcrypt user password
+    const saltRound = 10;
+    const salt = await bcrypt.genSalt(saltRound);
+
+    const bcryptPassword = bcrypt.hash(password, salt);
 
   //step 4 enter user in db
 
