@@ -1,11 +1,15 @@
-CREATE DATABASE blogsystem;
+DROP DATABASE IF EXISTS blog_system;
+
+CREATE DATABASE blog_system;
+
+USE blog_system;
 
 CREATE TABLE users(
 user_id uuid PRIMARY KEY DEFAULT
 uuid_generate_v4(),
 user_name VARCHAR(35) NOT NULL,
 user_email VARCHAR(50) NOT NULL,
-user_password VARCHAR(25) NOT NULL
+user_password VARCHAR(255) NOT NULL
 );
 
 INSERT INTO users (user_name, user_email, user_password) VALUES ('edgar', 'edgarrizon@gmail.com', 'ea1991');
