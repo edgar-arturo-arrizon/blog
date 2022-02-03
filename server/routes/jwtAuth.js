@@ -3,6 +3,7 @@ import pool from '../db.js';
 import bcrypt from 'bcrypt';
 import jwtGenerator from '../utils/jwtGenerator.js';
 import { validInfo } from '../middleware/validinfo.js';
+import authorize from '../middleware/authorization.js';
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ router.post('/register', validInfo, async (req, res) => {
 
 //login route
 
-router.post("/login", async (req, res) => {
+router.post('/login', validInfo, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -54,6 +55,15 @@ router.post("/login", async (req, res) => {
 
     res.json({ token });
 
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/is-verify', authorize, async (req,res) => {
+  try {
+    res.json(true);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

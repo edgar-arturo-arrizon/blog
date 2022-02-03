@@ -3,12 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config()
 
-export function authorize async (req, res, next) {
+export default function async (req, res, next) {
   try {
+    const token = req.header('token');
 
-    const jwtToken = req.header('token');
-
-    if (!jwtToken) {
+    if (!token) {
       return res.status(403).json('Not Authorize');
     }
 
@@ -19,6 +18,6 @@ export function authorize async (req, res, next) {
 
   } catch (err) {
     console.error(err.message);
-    return res.status(403).json( msg: 'Not Authorized' );
+    return res.status(403).json( {msg: 'Not Authorized'} );
   }
 }
