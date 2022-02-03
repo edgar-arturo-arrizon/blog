@@ -2,11 +2,12 @@ import express from 'express';
 import pool from '../db.js';
 import bcrypt from 'bcrypt';
 import jwtGenerator from '../utils/jwtGenerator.js';
+import { validInfo } from '../middleware/validinfo.js';
 
 const router = express.Router();
 
 //registering
-router.post('/register', async (req, res) => {
+router.post('/register', validInfo, async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [email]);

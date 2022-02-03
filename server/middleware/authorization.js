@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config()
 
-export default function async (req, res, next) {
+export function authorize async (req, res, next) {
   try {
 
     const jwtToken = req.header('token');
