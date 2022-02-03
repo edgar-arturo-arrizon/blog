@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "schema": "psql -U edgararrizon -f database.sql"
   },
   "keywords": [],
   "author": "",
