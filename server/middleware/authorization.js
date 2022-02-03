@@ -13,7 +13,7 @@ export default function async (req, res, next) {
 
     const verify = jwt.verify(token, process.env.jwtSecret);
 
-    req.user = verify.user;
+    req.user = verify.id;
     next();
 
   } catch (err) {
