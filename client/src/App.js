@@ -18,16 +18,16 @@ function App() {
   };
 
   return (
-    <Fragment>
+    <>
       <Router>
         <div>
           <Routes>
             <Route
               exact
               path="/login"
-              render={props =>
+              element={
                 !isAuthenticated ? (
-                  <Login {...props} setAuth={setAuth} />
+                  <Login setAuth={setAuth} />
                 ) : (
                   <Navigate to="/dashboard" />
                 )
@@ -36,9 +36,9 @@ function App() {
             <Route
               exact
               path="/register"
-              render={props =>
+              element={
                 !isAuthenticated ? (
-                  <Register {...props} setAuth={setAuth} />
+                  <Register setAuth={setAuth} />
                 ) : (
                   <Navigate to="/dashboard" />
                 )
@@ -47,9 +47,9 @@ function App() {
             <Route
               exact
               path="/dashboard"
-              render={props =>
+              element={
                 isAuthenticated ? (
-                  <Dashboard {...props} setAuth={setAuth} />
+                  <Dashboard setAuth={setAuth} />
                 ) : (
                   <Navigate to="/login" />
                 )
@@ -58,7 +58,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </Fragment>
+    </>
   );
 }
 
