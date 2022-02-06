@@ -9,20 +9,22 @@ const router = express.Router();
 
 //registering
 router.post('/register', validInfo, async (req, res) => {
+  console.log('here..', req.body)
   try {
     const { name, email, password } = req.body;
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [email]);
-
+    console.log('2nd test', user.rows)
     if (user.rows.length !== 0) {
       return res.status(401).send('User already exists');
     }
 
     const salt = await bcrypt.genSalt(10);
     const bcryptPassword = await bcrypt.hash(password, salt);
-
+    console.log(bcryptPassword)
     const newUser = await pool.query("INSERT INTO users (user_name, user_email, user_password) Values ($1, $2, $3) RETURNING *", [ name, email, bcryptPassword ]);
 
     const token = jwtGenerator(newUser.rows[0].user_id)
+    // console.log('token', token)
     res.json({ token });
 
   //step 5 generating our jwt token

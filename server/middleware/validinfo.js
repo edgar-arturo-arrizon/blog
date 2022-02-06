@@ -7,7 +7,7 @@ export function validInfo(req, res, next) {
 
   if (req.path === '/register') {
     if (![email, name, password].every(Boolean)) {
-      return res.status(401).json('Missing Credentials');
+      return res.status(401).json('Missing Credentials..');
     } else if (!validEmail(email)) {
       return res.status(401).json('Invalid Email');
     }

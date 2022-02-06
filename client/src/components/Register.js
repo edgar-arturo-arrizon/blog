@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Register = ( { setAuth }) => {
+const Register = ( { setAuth } ) => {
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -14,20 +14,21 @@ const Register = ( { setAuth }) => {
   }
 
   const onSubmitForm = async (e) => {
-    console.log(inputs);
     e.preventDefault();
     try {
       const body = { email, password, name };
 
       const response = await fetch('http://localhost:5000/auth/register', {
         method: 'POST',
-        header: { 'Content-Type': 'application/json;charset=utf-8' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
 
       const parseRes = await response.json();
 
-      console.log('test',parseRes)
+      localStorage.setItem('token', parseRes.token);
+
+      setAuth(true);
     } catch (err) {
       console.error(err.message);
     }
