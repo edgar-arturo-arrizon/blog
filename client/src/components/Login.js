@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = ( { setAuth }) => {
   const [inputs , setInputs] = useState({
@@ -24,7 +24,6 @@ const Login = ( { setAuth }) => {
         body: JSON.stringify(body)
       });
       const parseRes = await response.json();
-      console.log(parseRes)
       localStorage.setItem('token', parseRes.token);
       setAuth(true);
     } catch (err) {

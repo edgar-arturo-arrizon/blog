@@ -6,8 +6,6 @@ import {
   Navigate
  } from 'react-router-dom';
 
- import { toast } from "react-toastify";
-
  import Dashboard from './components/Dashboard.js';
  import Login from './components/Login.js';
  import Register from './components/Register.js';
@@ -27,7 +25,7 @@ function App() {
       })
 
       const parseRes = await response.json();
-      console.log(parseRes)
+      
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
