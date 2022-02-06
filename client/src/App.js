@@ -51,7 +51,7 @@ function App() {
                 isAuthenticated ? (
                   <Dashboard setAuth={setAuth} />
                 ) : (
-                  <Navigate to="/login" />
+                  <Navigate to="/login"  />
                 )
               }
             />
