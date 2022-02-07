@@ -12,4 +12,5 @@ user_email VARCHAR(50) NOT NULL,
 user_password VARCHAR(255) NOT NULL
 );
 
+
 INSERT INTO users (user_name, user_email, user_password) VALUES ('edgar', 'edgarrizon@gmail.com', 'ea1991');
