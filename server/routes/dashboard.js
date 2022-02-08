@@ -1,21 +1,74 @@
 import express from 'express';
 import pool from '../db.js';
-import authorize from '../middleware/authorization.js';
+import authorization from '../middleware/authorization.js';
 
 const dashboardRouter = express.Router();
 
-dashboardRouter.get('/', authorize, async (req, res) => {
+dashboardRouter.get('/', authorization, async (req, res) => {
+  console.log('dashboardRouter:', req.user)
   try {
-    console.log(req.user)
     const user = await pool.query(
       "SELECT user_name FROM users WHERE user_id = $1",
-      [ req.user ]
+      [ req.user]
     );
 
     res.json(user.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message, 'ERROR: Error @  `/` GET route');
     res.status(500).send("Server error");
+  }
+});
+
+dashboardRouter.post('/blogs', authorization, async (req, res) => {
+  try {
+    const { title } = req.body;
+    const newBlog = await pool.query(
+      "INSERT INTO blogs (user_id, blog_title) VALUES ($1, $2) RETURNING *",
+      [req.user_id, title]
+    );
+
+    res.json(newBlog.rows[0]);
+  } catch (err) {
+    console.error(err.message, 'ERROR: Error @ `/blogs` POST route');
+  }
+});
+
+dashboardRouter.put("/blogs/:id", authorization, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const updateBlog = await pool.query(
+      "UPDATE blogs SET description = $1 WHERE blog_id = $2 AND user_id = $3 RETURNING *",
+      [title, id, req.user.id]
+    );
+
+    if (updateBlog.rows.length === 0) {
+      return res.json("This blog is not yours");
+    }
+
+    res.json("Blog was updated");
+  } catch (err) {
+    console.error(err.message, 'ERROR: Error @  PUT `/blogs/:id` route');
+  }
+});
+
+//delete a todo
+
+dashboardRouter.delete("/blogs/:id", authorization, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteBlog = await pool.query(
+      "DELETE FROM blogs WHERE blog_id = $1 AND user_id = $2 RETURNING *",
+      [id, req.user.id]
+    );
+
+    if (deleteBlog.rows.length === 0) {
+      return res.json("This Blog is not yours");
+    }
+
+    res.json("Blog was deleted");
+  } catch (err) {
+    console.error(err.message, 'ERROR: Error @  DELETE `/blogs/:id` route');
   }
 });
 

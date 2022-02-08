@@ -6,7 +6,7 @@ import {
   Navigate
  } from 'react-router-dom';
 
- import Dashboard from './components/Dashboard.js';
+ import Dashboard from './components/dashboard/Dashboard.js';
  import Login from './components/Login.js';
  import Register from './components/Register.js';
 
@@ -25,7 +25,7 @@ function App() {
       })
 
       const parseRes = await response.json();
-      
+
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
