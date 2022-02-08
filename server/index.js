@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import router from './routes/jwtAuth.js';
 import dashboardRouter from './routes/dashboard.js';
 
+
 const app = express();
 const port = 5000;
 

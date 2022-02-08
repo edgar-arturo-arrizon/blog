@@ -3,13 +3,12 @@ import pool from '../db.js';
 import bcrypt from 'bcrypt';
 import jwtGenerator from '../utils/jwtGenerator.js';
 import { validInfo } from '../middleware/validinfo.js';
-import authorize from '../middleware/authorization.js';
+import authorization from '../middleware/authorization.js';
 
 const router = express.Router();
 
 //registering
 router.post('/register', validInfo, async (req, res) => {
-  console.log('here..', req.body)
   try {
     const { name, email, password } = req.body;
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [email]);
@@ -24,7 +23,6 @@ router.post('/register', validInfo, async (req, res) => {
     const newUser = await pool.query("INSERT INTO users (user_name, user_email, user_password) Values ($1, $2, $3) RETURNING *", [ name, email, bcryptPassword ]);
 
     const token = jwtGenerator(newUser.rows[0].user_id)
-    // console.log('token', token)
     res.json({ token });
 
   //step 5 generating our jwt token
@@ -63,7 +61,7 @@ router.post('/login', validInfo, async (req, res) => {
   }
 });
 
-router.get('/is-verify', authorize, async (req,res) => {
+router.get('/is-verify', authorization, async (req,res) => {
   try {
     res.json(true);
   } catch (err) {

@@ -35,6 +35,6 @@ CREATE TABLE comments(
   FOREIGN KEY (blog_id) REFERENCES blogs(blog_id)
 );
 
-INSERT INTO users (user_name, user_email, user_password) VALUES ('edgar', 'edgar@gmail.com', 'edgar123');
+-- INSERT INTO users (user_name, user_email, user_password) VALUES ('edgar', 'edgar@gmail.com', 'edgar123');
 
-SELECT * FROM users;
+-- SELECT * FROM users;
