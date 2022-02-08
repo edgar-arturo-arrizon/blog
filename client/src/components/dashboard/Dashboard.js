@@ -5,16 +5,20 @@ import ListBlogs from './blogs/ListBlogs.js';
 
 const Dashboard = ( { setAuth }) => {
   const [name , setName] = useState('');
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [blogsChange, setBlogsChange] = useState(false);
 
-  const getName = async () => {
+  const getProfile = async () => {
     try {
+      console.log('get profile')
       const response = await fetch('http://localhost:5000/dashboard/', {
         method: 'GET',
-        headers: { token: localStorage.token }
+        headers: { 'token': localStorage.token }
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
+      
+      setAllBlogs(parseRes)
       setName(parseRes.user_name)
     } catch (err) {
       console.log('Dashboard request error');
@@ -34,8 +38,9 @@ const Dashboard = ( { setAuth }) => {
   };
 
   useEffect(() => {
-    getName();
-  }, []);
+    setBlogsChange(false);
+    getProfile();
+  }, [blogsChange]);
 
   return (
     <div>
@@ -47,8 +52,8 @@ const Dashboard = ( { setAuth }) => {
         </button>
       </div>
       <div>
-        <CreateBlog />
-        <ListBlogs />
+        <CreateBlog setBlogsChange={setBlogsChange} />
+        <ListBlogs allBlogs={allBlogs} setBlogsChange={setBlogsChange} />
       </div>
     </div>
   )

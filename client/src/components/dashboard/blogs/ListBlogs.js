@@ -2,12 +2,24 @@ import React, { useState, useEffect } from 'react';
 import EditBlog from './EditBlog.js';
 
 const ListBlog = ( { allBlogs, setBlogsChange }) => {
-  const [blog, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState([]);
 
+  async function deleteBlog(id) {
+    try {
+      await fetch(`http://localhost:5000/dashboard/blogs/${id}`, {
+        method: "DELETE",
+        headers: { jwt_token: localStorage.token }
+      });
 
-  useEffect(() => {
-    setBlogs(allBlogs)
-  }, [allBlogs]);
+      setBlogs(blogs.filter(blog => blog.blog_id !== id));
+    } catch (err) {
+      console.error(err.message, 'ERROR: ListBlog component - deleteBlog function');
+    }
+  }
+
+  // useEffect(() => {
+  //   setBlogs(allBlogs)
+  // }, [allBlogs]);
 
   return (
     <>
@@ -28,12 +40,12 @@ const ListBlog = ( { allBlogs, setBlogsChange }) => {
           </tr> */}
 
           {blogs.length !== 0 &&
-            blogs[0].todo_id !== null &&
-            blogs.map(todo => (
-              <tr key={todo.todo_id}>
-                <td>{todo.description}</td>
+            blogs[0].blog_id !== null &&
+            blogs.map(blog => (
+              <tr key={blog.blog_id}>
+                <td>{blog.description}</td>
                 <td>
-                  <EditBlog todo={todo} setBlogsChange={setBlogsChange} />
+                  <EditBlog blog={blog} setBlogsChange={setBlogsChange} />
                 </td>
                 <td>
                   <button

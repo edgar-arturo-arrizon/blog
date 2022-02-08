@@ -12,7 +12,7 @@ router.post('/register', validInfo, async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [email]);
-    console.log('2nd test', user.rows)
+
     if (user.rows.length !== 0) {
       return res.status(401).send('User already exists');
     }
@@ -52,7 +52,6 @@ router.post('/login', validInfo, async (req, res) => {
     }
 
     const token = jwtGenerator(user.rows[0].user_id);
-
     res.json({ token });
 
   } catch (err) {
