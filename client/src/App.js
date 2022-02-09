@@ -38,7 +38,7 @@ function App() {
   return (
     <>
       <Router>
-        <div>
+        <div className=" bg-gray-700">
           <Routes>
             <Route
               exact

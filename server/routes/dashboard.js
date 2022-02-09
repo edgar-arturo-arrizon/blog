@@ -6,13 +6,16 @@ const dashboardRouter = express.Router();
 
 dashboardRouter.get('/', authorization, async (req, res) => {
   try {
-    // console.log('dashboardRouter: GET request', req.user)
+    console.log('dashboardRouter: GET request', req.user)
     const user = await pool.query(
-      "SELECT user_name FROM users WHERE user_id = $1",
-      [ req.user]
+      "SELECT u.user_name, b.blog_id, b.blog_title FROM users AS u LEFT JOIN blogs AS b ON u.user_id = b.user_id WHERE u.user_id = $1",
+      [req.user]
+    );
+    const blogs = await pool.query(
+      "select * from blogs where user_id = $1", [req.user]
     );
 
-    res.json(user.rows[0]);
+    res.json([user.rows[0], blogs.rows]);
   } catch (err) {
     console.error(err.message, 'ERROR: Error @  `/` GET route');
     res.status(500).send("Server error");

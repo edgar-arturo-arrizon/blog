@@ -24,7 +24,7 @@ const CreateBlog = ({ setBlogsChange }) => {
       console.log('test', parseResponse);
 
       setBlogsChange(true);
-      setTitle("");
+      setTitle(title);
       // window.location = "/";
     } catch (err) {
       console.error(err.message);
