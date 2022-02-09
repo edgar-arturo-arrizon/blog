@@ -5,8 +5,8 @@ import authorization from '../middleware/authorization.js';
 const dashboardRouter = express.Router();
 
 dashboardRouter.get('/', authorization, async (req, res) => {
-  console.log('dashboardRouter:', req.user)
   try {
+    // console.log('dashboardRouter: GET request', req.user)
     const user = await pool.query(
       "SELECT user_name FROM users WHERE user_id = $1",
       [ req.user]
@@ -20,11 +20,12 @@ dashboardRouter.get('/', authorization, async (req, res) => {
 });
 
 dashboardRouter.post('/blogs', authorization, async (req, res) => {
+  // console.log('dashboardRouter: POST /blogs route', req.body)
   try {
-    const { title } = req.body;
+    const { title, id } = req.body;
     const newBlog = await pool.query(
       "INSERT INTO blogs (user_id, blog_title) VALUES ($1, $2) RETURNING *",
-      [req.user_id, title]
+      [id, title]
     );
 
     res.json(newBlog.rows[0]);
