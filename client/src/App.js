@@ -25,7 +25,6 @@ function App() {
       })
 
       const parseRes = await response.json();
-
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
@@ -39,7 +38,7 @@ function App() {
   return (
     <>
       <Router>
-        <div>
+        <div className=" bg-gray-700">
           <Routes>
             <Route
               exact

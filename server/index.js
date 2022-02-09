@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/auth', router);
-app.use('/dashboard', (req, res) => console.log('/dashboard', req.user), dashboardRouter);
+app.use('/dashboard', dashboardRouter);
 
 app.listen(port, () => {
   console.log(`Server listening on ${port}`);

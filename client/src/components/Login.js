@@ -24,13 +24,15 @@ const Login = ( { setAuth }) => {
         body: JSON.stringify(body)
       });
       const parseRes = await response.json();
+
       localStorage.setItem('token', parseRes.token);
+      localStorage.setItem('id', parseRes.id);
+
       setAuth(true);
     } catch (err) {
       console.log('error at login')
       console.error(err.message);
     }
-
   }
 
   return (

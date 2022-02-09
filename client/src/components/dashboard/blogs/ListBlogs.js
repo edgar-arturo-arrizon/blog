@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import EditBlog from './EditBlog.js';
 
 const ListBlog = ( { allBlogs, setBlogsChange }) => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState([ ]);
 
   async function deleteBlog(id) {
+    console.log(id)
     try {
       await fetch(`http://localhost:5000/dashboard/blogs/${id}`, {
         method: "DELETE",
-        headers: { jwt_token: localStorage.token }
+        headers: { token: localStorage.token }
       });
 
       setBlogs(blogs.filter(blog => blog.blog_id !== id));
@@ -17,48 +18,37 @@ const ListBlog = ( { allBlogs, setBlogsChange }) => {
     }
   }
 
-  // useEffect(() => {
-  //   setBlogs(allBlogs)
-  // }, [allBlogs]);
+  useEffect(() => {
+    setBlogs(allBlogs)
+  }, [ allBlogs ]);
 
   return (
     <>
-      {" "}
-      <table className="table mt-5">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/*<tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-          </tr> */}
+      <div>
+        <ul>
+          {
+            blogs.map((blog) => {
+              return (
 
-          {blogs.length !== 0 &&
-            blogs[0].blog_id !== null &&
-            blogs.map(blog => (
-              <tr key={blog.blog_id}>
-                <td>{blog.description}</td>
-                <td>
+              <li key={blog.blog_id}>
+                <h2>{blog.blog_title}</h2>
+                <div>
                   <EditBlog blog={blog} setBlogsChange={setBlogsChange} />
-                </td>
-                <td>
+                </div>
+                <div>
                   <button
-                    className="btn btn-danger"
-                    onClick={() => deleteBlog(blog.blog_id)}
+                  className="btn btn-danger"
+                  onClick={() => deleteBlog(blog.blog_id)}
                   >
-                    Delete
+                  Delete
                   </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+                </div>
+              </li>
+              )
+          })}
+        </ul>
+      </div>
+
     </>
   )
 }

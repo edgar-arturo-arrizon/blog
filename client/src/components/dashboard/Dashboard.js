@@ -10,16 +10,16 @@ const Dashboard = ( { setAuth }) => {
 
   const getProfile = async () => {
     try {
-      console.log('get profile')
       const response = await fetch('http://localhost:5000/dashboard/', {
         method: 'GET',
         headers: { 'token': localStorage.token }
       });
 
       const parseRes = await response.json();
-      
-      setAllBlogs(parseRes)
-      setName(parseRes.user_name)
+
+      console.log('get profile', parseRes)
+      setAllBlogs(parseRes[1])
+      setName(parseRes[0].user_name)
     } catch (err) {
       console.log('Dashboard request error');
       console.error(err.message);

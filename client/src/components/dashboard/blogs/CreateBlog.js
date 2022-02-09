@@ -6,12 +6,14 @@ const CreateBlog = ({ setBlogsChange }) => {
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
+
+      const id = localStorage.id;
       const myHeaders = new Headers();
 
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("token", localStorage.token);
 
-      const body = { title };
+      const body = { title, id };
       const response = await fetch("http://localhost:5000/dashboard/blogs", {
         method: "POST",
         headers: myHeaders,
@@ -22,7 +24,7 @@ const CreateBlog = ({ setBlogsChange }) => {
       console.log('test', parseResponse);
 
       setBlogsChange(true);
-      setTitle("");
+      setTitle(title);
       // window.location = "/";
     } catch (err) {
       console.error(err.message);
