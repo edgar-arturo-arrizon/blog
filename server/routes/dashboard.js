@@ -63,8 +63,10 @@ dashboardRouter.delete("/blogs/:id", authorization, async (req, res) => {
     const { id } = req.params;
     const deleteBlog = await pool.query(
       "DELETE FROM blogs WHERE blog_id = $1 AND user_id = $2 RETURNING *",
-      [id, req.user.id]
+      [id, req.user]
     );
+
+    console.log(id, req.user, deleteBlog.rows)
 
     if (deleteBlog.rows.length === 0) {
       return res.json("This Blog is not yours");
